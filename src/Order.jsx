@@ -10,7 +10,9 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
-import { fetchPizzaSizes } from './modules/pizza';
+import { addSizeToOrder, fetchPizzaSizes } from './modules/pizza';
+
+const mapDispatchToProps = { addSizeToOrder, fetchPizzaSizes };
 
 // type pizzaSize {
 //   # The size of the pizza
@@ -89,13 +91,15 @@ class Order extends Component {
 
   handleRequestClose = (event, pizza) => {
     this.setState({ open: false, pizza });
+    this.props.addSizeToOrder(pizza.name);
   };
 
   render = () => {
     console.log(this.props);
     console.log(this.state);
     const classes = this.props.classes;
-    // const pizzas = this.props.data.pizzaSizes;
+    const pizzas = this.props.pizzas;
+    const order = this.props.order;
     // const selected = this.state.pizza;
     return (
       <div>
@@ -106,12 +110,12 @@ class Order extends Component {
           <Typography type="body1" component="p">
             Paper can be used to build surface or other elements for your application.
           </Typography>
-          {/* <Button
+          <Button
             aria-owns={this.state.open ? 'simple-menu' : null}
             aria-haspopup="true"
             onClick={this.handleClick}
           >
-            Select size
+            {order.size || 'Select size'}
           </Button>
           <Menu
             id="simple-menu"
@@ -122,10 +126,11 @@ class Order extends Component {
             {pizzas &&
               pizzas.map(pizza =>
                 (<MenuItem key={pizza.name} onClick={event => this.handleRequestClose(event, pizza)}>
-                  {pizza.name}
+                  {`${pizza.name} $${pizza.basePrice}`}
                 </MenuItem>),
               )}
           </Menu>
+          {/*
           <List>
             {selected &&
               selected.toppings.map(topping =>
@@ -154,7 +159,5 @@ class Order extends Component {
 const mapStateToProps = state => ({
   ...state,
 });
-
-const mapDispatchToProps = { fetchPizzaSizes };
 
 export default withStyles(styleSheet)(connect(mapStateToProps, mapDispatchToProps)(Order));
