@@ -1,8 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import { gql, graphql } from 'react-apollo';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
@@ -10,21 +10,54 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
-const MenuQuery = gql`
-  query {
-    pizzaSizes {
-      name
-      basePrice
-      maxToppings
-      toppings {
-        topping {
-          name
-          price
-        }
-      }
-    }
-  }
-`;
+import { fetchPizzaSizes } from './modules/pizza';
+
+// type pizzaSize {
+//   # The size of the pizza
+//   name: String!
+
+//   # Max number of allowable toppings.
+//   maxToppings: Int
+
+//   # Toppings allowed on this pizza, and whether or not they're default selected
+//   toppings: [pizzaToppingConnection]!
+
+//   # Base price of the pie - sans toppings
+//   basePrice: Float!
+// }
+
+// enum PizzaSizes {
+//   LARGE
+//   MEDIUM
+//   SMALL
+// }
+
+// type pizzaToppingConnection {
+//   # The pizza size
+//   pizzaSize: pizzaSize!
+
+//   # The topping
+//   topping: topping!
+
+//   # whether or not this topping should be selected by default for this pizza
+//   defaultSelected: Boolean!
+// }
+
+// type query {
+//   # All available pizza sizes
+//   pizzaSizes: [pizzaSize]!
+
+//   # Pizza size by name
+//   pizzaSizeByName(name: PizzaSizes): pizzaSize
+// }
+
+// type topping {
+//   # The name of the topping
+//   name: String!
+
+//   # How much this topping costs
+//   price: Float!
+// }
 
 const styleSheet = createStyleSheet(theme => ({
   root: theme.mixins.gutters({
@@ -44,6 +77,10 @@ class Order extends Component {
     pizza: undefined,
   };
 
+  componentDidMount() {
+    this.props.fetchPizzaSizes();
+  }
+
   props: pizzaProps;
 
   handleClick = (event) => {
@@ -58,8 +95,8 @@ class Order extends Component {
     console.log(this.props);
     console.log(this.state);
     const classes = this.props.classes;
-    const pizzas = this.props.data.pizzaSizes;
-    const selected = this.state.pizza;
+    // const pizzas = this.props.data.pizzaSizes;
+    // const selected = this.state.pizza;
     return (
       <div>
         <Paper className={classes.root} elevation={4}>
@@ -69,7 +106,7 @@ class Order extends Component {
           <Typography type="body1" component="p">
             Paper can be used to build surface or other elements for your application.
           </Typography>
-          <Button
+          {/* <Button
             aria-owns={this.state.open ? 'simple-menu' : null}
             aria-haspopup="true"
             onClick={this.handleClick}
@@ -107,11 +144,17 @@ class Order extends Component {
                   <ListItemText primary={topping.price} />
                 </ListItem>),
               )}
-          </List>
+          </List> */}
         </Paper>
       </div>
     );
   };
 }
 
-export default withStyles(styleSheet)(graphql(MenuQuery)(Order));
+const mapStateToProps = state => ({
+  ...state,
+});
+
+const mapDispatchToProps = { fetchPizzaSizes };
+
+export default withStyles(styleSheet)(connect(mapStateToProps, mapDispatchToProps)(Order));
