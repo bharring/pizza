@@ -1,0 +1,46 @@
+// type pizzaSize {
+//   # The size of the pizza
+//   name: String!
+
+//   # Max number of allowable toppings.
+//   maxToppings: Int
+
+//   # Toppings allowed on this pizza, and whether or not they're default selected
+//   toppings: [pizzaToppingConnection]!
+
+//   # Base price of the pie - sans toppings
+//   basePrice: Float!
+// }
+
+// enum PizzaSizes {
+//   LARGE
+//   MEDIUM
+//   SMALL
+// }
+
+// type pizzaToppingConnection {
+//   # The pizza size
+//   pizzaSize: pizzaSize!
+
+//   # The topping
+//   topping: topping!
+
+//   # whether or not this topping should be selected by default for this pizza
+//   defaultSelected: Boolean!
+// }
+
+// type query {
+//   # All available pizza sizes
+//   pizzaSizes: [pizzaSize]!
+
+//   # Pizza size by name
+//   pizzaSizeByName(name: PizzaSizes): pizzaSize
+// }
+
+// type topping {
+//   # The name of the topping
+//   name: String!
+
+//   # How much this topping costs
+//   price: Float!
+// }
