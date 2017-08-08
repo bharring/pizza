@@ -1,4 +1,5 @@
 import axios from 'axios';
+import uuidv4 from 'uuid/v4';
 
 const REQUEST_PENDING = 'pizza/order/REQUEST_PENDING';
 const REQUEST_COMPLETED = 'pizza/order/REQUEST_COMPLETED';
@@ -9,6 +10,7 @@ const RECEIVE_TOPPINGS_FOR_SIZE = 'pizza/order/RECEIVE_TOPPINGS_FOR_SIZE';
 const ADD_TOPPING_TO_ORDER = 'pizza/order/ADD_TOPPING_TO_ORDER';
 const REMOVE_TOPPING_FROM_ORDER = 'pizza/order/REMOVE_TOPPING_FROM_ORDER';
 const COMPLETE_PIZZA = 'pizza/order/COMPLETE_PIZZA';
+const REMOVE_PIZZA = 'pizza/order/REMOVE_PIZZA';
 
 // default state
 const defaultState = {
@@ -61,8 +63,17 @@ export default function reducer(state = defaultState, action = {}) {
         },
       };
     }
-    case COMPLETE_PIZZA:
-      return { ...state, cart: [...state.cart, state.order] };
+    case COMPLETE_PIZZA: {
+      const order = { ...state.order, id: uuidv4() };
+      return { ...state, cart: [...state.cart, order] };
+    }
+    case REMOVE_PIZZA: {
+      const index = state.cart.findIndex(pizza => action.id === pizza.id);
+      return {
+        ...state,
+        cart: [...state.cart.slice(0, index), ...state.cart.slice(index + 1, state.cart.length)],
+      };
+    }
     default:
       return state;
   }
@@ -105,6 +116,11 @@ export const removeToppingFromOrder = topping => ({
 
 export const completePizza = () => ({
   type: COMPLETE_PIZZA,
+});
+
+export const removePizza = id => ({
+  type: REMOVE_PIZZA,
+  id,
 });
 
 // Axios fetch helper
