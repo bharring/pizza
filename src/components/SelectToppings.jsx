@@ -5,6 +5,8 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import Typography from 'material-ui/Typography';
 
+import AddToOrder from './AddToOrder';
+
 import { addToppingToOrder, removeToppingFromOrder } from '../modules/pizza';
 
 const mapDispatchToProps = { addToppingToOrder, removeToppingFromOrder };
@@ -12,16 +14,17 @@ const mapDispatchToProps = { addToppingToOrder, removeToppingFromOrder };
 class SelectToppings extends Component {
   handleToggle = (event, topping, checked) => {
     if (checked) {
-      this.props.addToppingToOrder(topping);
-    } else {
       this.props.removeToppingFromOrder(topping);
+    } else {
+      this.props.addToppingToOrder(topping);
     }
   };
 
   render = () => {
-    console.log(this.props);
     const toppings = this.props.toppings;
     const order = this.props.order;
+    const disabled =
+      order.size && order.size.maxToppings && order.toppings.length >= order.size.maxToppings;
     return (
       <div>
         {order.size &&
@@ -42,14 +45,20 @@ class SelectToppings extends Component {
                 dense
                 button
                 key={name}
-                onClick={event => this.handleToggle(event, topping.topping, !checked)}
+                onClick={event => this.handleToggle(event, topping.topping, checked)}
               >
-                <Checkbox checked={checked} tabIndex="-1" disableRipple />
+                <Checkbox
+                  checked={checked}
+                  disabled={disabled && !checked}
+                  tabIndex="-1"
+                  disableRipple
+                />
                 <ListItemText primary={name} secondary={`$${price.toFixed(2)}`} />
               </ListItem>
             );
           })}
         </List>
+        <AddToOrder />
       </div>
     );
   };

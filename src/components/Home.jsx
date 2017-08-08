@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 
 import Order from './Order';
+import Cart from './Cart';
 
 const styleSheet = createStyleSheet(theme => ({
   root: {
@@ -26,11 +27,17 @@ const Home = (props) => {
           <Order />
         </Grid>
         <Grid item sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
+          <Cart />
         </Grid>
       </Grid>
     </div>
   );
+};
+
+Home.propTypes = {
+  classes: PropTypes.shape({
+    root: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default withStyles(styleSheet)(Home);

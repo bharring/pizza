@@ -35,6 +35,8 @@ class SelectSize extends Component {
     return (
       <div>
         <Button
+          raised
+          color="primary"
           aria-owns={this.state.open ? 'simple-menu' : null}
           aria-haspopup="true"
           onClick={this.handleClick}

@@ -62,7 +62,7 @@ export default function reducer(state = defaultState, action = {}) {
       };
     }
     case COMPLETE_PIZZA:
-      return { ...state, cart: [...state.cart, action.order] };
+      return { ...state, cart: [...state.cart, state.order] };
     default:
       return state;
   }
@@ -101,6 +101,10 @@ export const addToppingToOrder = topping => ({
 export const removeToppingFromOrder = topping => ({
   type: REMOVE_TOPPING_FROM_ORDER,
   topping,
+});
+
+export const completePizza = () => ({
+  type: COMPLETE_PIZZA,
 });
 
 // Axios fetch helper
