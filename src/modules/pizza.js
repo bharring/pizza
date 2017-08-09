@@ -1,19 +1,21 @@
+// Ducks https://github.com/erikras/ducks-modular-redux
+
 import axios from 'axios';
-import uuidv4 from 'uuid/v4';
+import { v4 } from 'uuid';
 
-const REQUEST_PENDING = 'pizza/order/REQUEST_PENDING';
-const REQUEST_COMPLETED = 'pizza/order/REQUEST_COMPLETED';
-const REQUEST_FAILED = 'pizza/order/REQUEST_FAILED';
+export const REQUEST_PENDING = 'pizza/order/REQUEST_PENDING';
+export const REQUEST_COMPLETED = 'pizza/order/REQUEST_COMPLETED';
+export const REQUEST_FAILED = 'pizza/order/REQUEST_FAILED';
 
-const RECEIVE_PIZZA_SIZES = 'pizza/order/RECEIVE_PIZZA_SIZES';
-const RECEIVE_TOPPINGS_FOR_SIZE = 'pizza/order/RECEIVE_TOPPINGS_FOR_SIZE';
-const ADD_TOPPING_TO_ORDER = 'pizza/order/ADD_TOPPING_TO_ORDER';
-const REMOVE_TOPPING_FROM_ORDER = 'pizza/order/REMOVE_TOPPING_FROM_ORDER';
-const COMPLETE_PIZZA = 'pizza/order/COMPLETE_PIZZA';
-const REMOVE_PIZZA = 'pizza/order/REMOVE_PIZZA';
+export const RECEIVE_PIZZA_SIZES = 'pizza/order/RECEIVE_PIZZA_SIZES';
+export const RECEIVE_TOPPINGS_FOR_SIZE = 'pizza/order/RECEIVE_TOPPINGS_FOR_SIZE';
+export const ADD_TOPPING_TO_ORDER = 'pizza/order/ADD_TOPPING_TO_ORDER';
+export const REMOVE_TOPPING_FROM_ORDER = 'pizza/order/REMOVE_TOPPING_FROM_ORDER';
+export const COMPLETE_PIZZA = 'pizza/order/COMPLETE_PIZZA';
+export const REMOVE_PIZZA = 'pizza/order/REMOVE_PIZZA';
 
 // default state
-const defaultState = {
+export const defaultState = {
   cart: [],
   error: undefined,
   isFetching: false,
@@ -32,7 +34,7 @@ export default function reducer(state = defaultState, action = {}) {
     case REQUEST_COMPLETED:
       return { ...state, isFetching: false };
     case REQUEST_FAILED:
-      return { ...state, error: action.error };
+      return { ...state, isFetching: false, error: action.error };
     case RECEIVE_PIZZA_SIZES:
       return { ...state, pizzas: action.pizzas };
     case RECEIVE_TOPPINGS_FOR_SIZE:
@@ -64,7 +66,7 @@ export default function reducer(state = defaultState, action = {}) {
       };
     }
     case COMPLETE_PIZZA: {
-      const order = { ...state.order, id: uuidv4() };
+      const order = { ...state.order, id: v4() };
       return { ...state, cart: [...state.cart, order] };
     }
     case REMOVE_PIZZA: {
