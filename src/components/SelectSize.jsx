@@ -31,7 +31,6 @@ class SelectSize extends Component {
   render = () => {
     const pizzas = this.props.pizzas;
     const order = this.props.order;
-    // const selected = this.state.pizza;
     return (
       <div>
         <Button
