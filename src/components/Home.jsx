@@ -23,10 +23,10 @@ const Home = (props) => {
   return (
     <div className={classes.root}>
       <Grid container spacing={24}>
-        <Grid item sm={9}>
+        <Grid item sm={6}>
           <Order />
         </Grid>
-        <Grid item sm={3}>
+        <Grid item sm={6}>
           <Cart />
         </Grid>
       </Grid>
