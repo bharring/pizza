@@ -1,8 +1,6 @@
 import reducer, * as pizza from './pizza';
 
-jest.mock('uuid', () => ({
-  v4: jest.fn(() => '2e774a36-408c-4247-83a1-a59d212ad1bd'),
-}));
+jest.mock('uuid/v4', () => jest.fn(() => '2e774a36-408c-4247-83a1-a59d212ad1bd'));
 
 describe('pizza reducer', () => {
   it('should return the initial state', () => {

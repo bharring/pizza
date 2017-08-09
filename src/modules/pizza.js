@@ -1,7 +1,7 @@
 // Ducks https://github.com/erikras/ducks-modular-redux
 
 import axios from 'axios';
-import { v4 } from 'uuid';
+import uuidv4 from 'uuid/v4';
 
 export const REQUEST_PENDING = 'pizza/order/REQUEST_PENDING';
 export const REQUEST_COMPLETED = 'pizza/order/REQUEST_COMPLETED';
@@ -66,7 +66,7 @@ export default function reducer(state = defaultState, action = {}) {
       };
     }
     case COMPLETE_PIZZA: {
-      const order = { ...state.order, id: v4() };
+      const order = { ...state.order, id: uuidv4() };
       return { ...state, cart: [...state.cart, order] };
     }
     case REMOVE_PIZZA: {
