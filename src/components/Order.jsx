@@ -6,6 +6,7 @@ import Typography from 'material-ui/Typography';
 
 import SelectSize from './SelectSize';
 import SelectToppings from './SelectToppings';
+import AddToOrder from './AddToOrder';
 
 const styleSheet = createStyleSheet(theme => ({
   root: theme.mixins.gutters({
@@ -23,6 +24,7 @@ const Order = (props) => {
       </Typography>
       <SelectSize />
       <SelectToppings />
+      <AddToOrder />
     </Paper>
   );
 };

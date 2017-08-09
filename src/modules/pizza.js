@@ -16,14 +16,14 @@ export const REMOVE_PIZZA = 'pizza/order/REMOVE_PIZZA';
 
 // default state
 export const defaultState = {
-  cart: [],
-  error: undefined,
-  isFetching: false,
+  pizzaSizes: [],
+  toppingsOptions: [],
   order: {
     toppings: [],
   },
-  pizzas: [],
-  toppings: [],
+  cart: [],
+  error: undefined,
+  isFetching: false,
 };
 
 // Reducer
@@ -36,16 +36,18 @@ export default function reducer(state = defaultState, action = {}) {
     case REQUEST_FAILED:
       return { ...state, isFetching: false, error: action.error };
     case RECEIVE_PIZZA_SIZES:
-      return { ...state, pizzas: action.pizzas };
+      return { ...state, pizzaSizes: action.pizzaSizes };
     case RECEIVE_TOPPINGS_FOR_SIZE:
       return {
         ...state,
         order: {
           ...state.order,
           size: action.size,
-          toppings: action.toppings.filter(t => t.defaultSelected).map(t => t.topping),
+          toppings: action.toppings
+            .filter(t => t.defaultSelected)
+            .map(t => t.topping),
         },
-        toppings: action.toppings,
+        toppingsOptions: action.toppings,
       };
     case ADD_TOPPING_TO_ORDER:
       return {
@@ -95,9 +97,9 @@ export const requestFailed = error => ({
   error,
 });
 
-export const receivePizzaSizes = pizzas => ({
+export const receivePizzaSizes = pizzaSizes => ({
   type: RECEIVE_PIZZA_SIZES,
-  pizzas,
+  pizzaSizes,
 });
 
 export const receiveToppingsForSize = (size, toppings) => ({

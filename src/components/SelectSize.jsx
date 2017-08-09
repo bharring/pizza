@@ -29,7 +29,7 @@ class SelectSize extends Component {
   };
 
   render = () => {
-    const pizzas = this.props.pizzas;
+    const pizzaSizes = this.props.pizzaSizes;
     const order = this.props.order;
     return (
       <div>
@@ -48,8 +48,8 @@ class SelectSize extends Component {
           open={this.state.open}
           onRequestClose={this.handleRequestClose}
         >
-          {pizzas &&
-            pizzas.map(pizza =>
+          {pizzaSizes &&
+            pizzaSizes.map(pizza =>
               (<MenuItem key={pizza.name} onClick={event => this.handleRequestClose(event, pizza)}>
                 {`${pizza.name} $${pizza.basePrice}`}
               </MenuItem>),
@@ -63,7 +63,7 @@ class SelectSize extends Component {
 SelectSize.propTypes = {
   fetchToppingsForSize: PropTypes.func.isRequired,
   fetchPizzaSizes: PropTypes.func.isRequired,
-  pizzas: PropTypes.arrayOf(
+  pizzaSizes: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       basePrice: PropTypes.number,
@@ -78,8 +78,8 @@ SelectSize.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = ({ pizzas, order }) => ({
-  pizzas,
+const mapStateToProps = ({ pizzaSizes, order }) => ({
+  pizzaSizes,
   order,
 });
 

@@ -42,19 +42,19 @@ describe('pizza reducer', () => {
     });
   });
   it('should save pizza sizes', () => {
-    const pizzas = [
+    const pizzaSizes = [
       { name: 'small', maxToppings: 3, basePrice: 9.89 },
       { name: 'medium', maxToppings: 5, basePrice: 10.89 },
       { name: 'large', maxToppings: null, basePrice: 13.49 },
     ];
-    expect(reducer(pizza.defaultState, { type: pizza.RECEIVE_PIZZA_SIZES, pizzas })).toEqual({
+    expect(reducer(pizza.defaultState, { type: pizza.RECEIVE_PIZZA_SIZES, pizzaSizes })).toEqual({
       ...pizza.defaultState,
-      pizzas,
+      pizzaSizes,
     });
   });
-  it('should save pizza size, and default toppings to order as well as pizza menu toppings for size', () => {
+  it('should save pizza size, and default toppings to order as well as pizza menu toppingsOptions for selected size', () => {
     const size = { name: 'small', maxToppings: 3, basePrice: 9.89 };
-    const toppings = [
+    const toppingsOptions = [
       { defaultSelected: false, topping: { name: 'pepperoni', price: 0.4 } },
       { defaultSelected: false, topping: { name: 'bannana peps', price: 0.89 } },
       { defaultSelected: false, topping: { name: 'sausage', price: 1.29 } },
@@ -64,14 +64,17 @@ describe('pizza reducer', () => {
       { defaultSelected: false, topping: { name: 'bell peps', price: 0.22 } },
     ];
     expect(
-      reducer(pizza.defaultState, { type: pizza.RECEIVE_TOPPINGS_FOR_SIZE, size, toppings }),
+      reducer(
+        pizza.defaultState,
+        { type: pizza.RECEIVE_TOPPINGS_FOR_SIZE, size, toppings: toppingsOptions },
+      ),
     ).toEqual({
       ...pizza.defaultState,
       order: {
         size,
         toppings: [{ name: 'cheese', price: 0.1 }],
       },
-      toppings,
+      toppingsOptions,
     });
   });
   it('should add a topping to the current order', () => {

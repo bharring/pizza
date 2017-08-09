@@ -5,23 +5,21 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import Typography from 'material-ui/Typography';
 
-import AddToOrder from './AddToOrder';
-
 import { addToppingToOrder, removeToppingFromOrder } from '../modules/pizza';
 
 const mapDispatchToProps = { addToppingToOrder, removeToppingFromOrder };
 
 class SelectToppings extends Component {
-  handleToggle = (event, topping, checked) => {
+  handleToggle = (event, topping, checked, disabled) => {
     if (checked) {
       this.props.removeToppingFromOrder(topping);
-    } else {
+    } else if (!disabled) {
       this.props.addToppingToOrder(topping);
     }
   };
 
   render = () => {
-    const toppings = this.props.toppings;
+    const toppingsOptions = this.props.toppingsOptions;
     const order = this.props.order;
     const disabled =
       order.size && order.size.maxToppings && order.toppings.length >= order.size.maxToppings;
@@ -37,7 +35,7 @@ class SelectToppings extends Component {
                 Select as many toppings as you want!
             </Typography>)}
         <List>
-          {toppings.map((topping) => {
+          {toppingsOptions.map((topping) => {
             const { name, price } = topping.topping;
             const checked = !!order.toppings.find(top => name === top.name);
             return (
@@ -45,7 +43,7 @@ class SelectToppings extends Component {
                 dense
                 button
                 key={name}
-                onClick={event => this.handleToggle(event, topping.topping, checked)}
+                onClick={event => this.handleToggle(event, topping.topping, checked, disabled)}
               >
                 <Checkbox
                   checked={checked}
@@ -58,13 +56,12 @@ class SelectToppings extends Component {
             );
           })}
         </List>
-        <AddToOrder />
       </div>
     );
   };
 }
 SelectToppings.defaultProps = {
-  toppings: [],
+  toppingsOptions: [],
 };
 
 SelectToppings.propTypes = {
@@ -76,14 +73,14 @@ SelectToppings.propTypes = {
       basePrice: PropTypes.number,
       maxToppings: PropTypes.number,
     }),
-    toppings: PropTypes.arrayOf(
+    toppingsOptions: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
       }),
     ),
   }).isRequired,
-  toppings: PropTypes.arrayOf(
+  toppingsOptions: PropTypes.arrayOf(
     PropTypes.shape({
       defaultSelected: PropTypes.bool.isRequired,
       topping: PropTypes.shape({
@@ -94,9 +91,9 @@ SelectToppings.propTypes = {
   ),
 };
 
-const mapStateToProps = ({ order, toppings }) => ({
+const mapStateToProps = ({ order, toppingsOptions }) => ({
   order,
-  toppings,
+  toppingsOptions,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectToppings);
