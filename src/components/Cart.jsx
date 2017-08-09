@@ -86,8 +86,8 @@ Cart.propTypes = {
   ).isRequired,
 };
 
-const mapStateToProps = state => ({
-  ...state,
+const mapStateToProps = ({ cart }) => ({
+  cart,
 });
 
 export default withStyles(styleSheet)(connect(mapStateToProps, mapDispatchToProps)(Cart));

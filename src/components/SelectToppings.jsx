@@ -94,8 +94,9 @@ SelectToppings.propTypes = {
   ),
 };
 
-const mapStateToProps = state => ({
-  ...state,
+const mapStateToProps = ({ order, toppings }) => ({
+  order,
+  toppings,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectToppings);

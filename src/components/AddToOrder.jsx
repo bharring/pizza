@@ -35,8 +35,8 @@ SelectSize.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  ...state,
+const mapStateToProps = ({ order }) => ({
+  order,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectSize);
